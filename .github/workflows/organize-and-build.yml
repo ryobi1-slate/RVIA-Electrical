@@ -1,4 +1,4 @@
-name: Slate Smart Repo Sync
+name: Slate Repo Sync
 
 on:
   push:
@@ -6,67 +6,49 @@ on:
   workflow_dispatch:
 
 jobs:
-  clean-and-build:
+  build:
+    if: github.actor != 'github-actions[bot]' && github.actor != 'Slate-Bot'
     runs-on: ubuntu-latest
     permissions:
       contents: write
+
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.2
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v5.4.0
         with:
           python-version: '3.10'
 
-      - name: Execute Deep-Scan Cleanup and Build
+      - name: Run repo organizer
         run: |
-          python -c "
-          import os, shutil, hashlib
-          from pathlib import Path
+          python organize_repo.py
 
-          # 1. Ensure Production Structure exists
-          STRUCTURE = [
-              'technical/engineering/archive_phase0',
-              'technical/datasheets',
-              'technical/manuals',
-              'technical/certs'
-          ]
-          for f in STRUCTURE: Path(f).mkdir(parents=True, exist_ok=True)
-
-          # 2. Smart Deduplication & Recursive Search
-          def get_hash(path):
-              hasher = hashlib.md5()
-              with open(path, 'rb') as f:
-                  for chunk in iter(lambda: f.read(4096), b''): hasher.update(chunk)
-              return hasher.hexdigest()
-
-          seen_hashes = {}
-          # .rglob('*.pdf') is the 'deep-scan' tool - it finds everything
-          for pdf in Path('.').rglob('*.pdf'):
-              # Ignore files already in the final destination to avoid infinite loops
-              if 'technical/' in str(pdf):
-                  h = get_hash(pdf)
-                  seen_hashes[h] = pdf.name
-                  continue
-
-              h = get_hash(pdf)
-              if h in seen_hashes:
-                  print(f'Deleting duplicate: {pdf.name}')
-                  pdf.unlink()
-              else:
-                  seen_hashes[h] = pdf.name
-                  dest = Path('technical/manuals') / pdf.name
-                  shutil.move(str(pdf), str(dest))
-                  print(f'Organized: {pdf.name} -> technical/manuals/')
-          "
-          # 3. Generate the Phase 1 Schematic
+      - name: Run schematic generator
+        run: |
           python generate_schematic.py
 
-      - name: Commit and Push Changes
+      - name: Show generated files
+        run: |
+          echo "---- ROOT ----"
+          ls -la
+          echo "---- OUTPUT ----"
+          ls -la output || echo "No output folder found"
+          echo "---- TECHNICAL ----"
+          find technical -maxdepth 3 -type f || echo "No technical files found"
+
+      - name: Commit and Push
         run: |
           git config --global user.name "Slate-Bot"
           git config --global user.email "bot@slatevans.com"
+
           git add .
-          git commit -m "Fixed: Recursive Deep-Scan Cleanup and Phase 1 Build" || echo "No changes to commit"
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+
+          git commit -m "Organized repo and regenerated schematic"
           git push
