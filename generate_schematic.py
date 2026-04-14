@@ -83,7 +83,8 @@ def write_dxf(path):
     # Table defines Standard Style as Arial with 0 height to prevent the "Giant Block" font issue
     out.append("0\nSECTION\n2\nTABLES\n0\nTABLE\n2\nSTYLE\n70\n1\n0\nSTYLE\n2\nSTANDARD\n70\n0\n40\n0.0\n41\n1.0\n50\n0.0\n71\n0\n42\n2.5\n3\nArial\n4\n\n0\nENDTAB\n")
     out.append(f"0\nTABLE\n2\nLAYER\n70\n{len(LAYERS)}\n")
-    for n, c in LAYERS.items(): out.append(f"0\nLAYER\n2\n{n}\n70\n0\n62\n{c}\n6\nCONTINUOUS\n")
+    for n, c in LAYERS.items():
+        out.append(f"0\nLAYER\n2\n{n}\n70\n0\n62\n{c}\n6\nCONTINUOUS\n")
     out.append("0\nENDTAB\n0\nENDSEC\n0\nSECTION\n2\nENTITIES\n")
 
     for k, (lab, x, y, wd, ht, lay) in COMPONENTS.items():
