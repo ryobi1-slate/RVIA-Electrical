@@ -1,4 +1,4 @@
-name: Slate Smart Repo Sync
+name: Slate Repo Rescue & Sync
 
 on:
   push:
@@ -6,61 +6,46 @@ on:
   workflow_dispatch:
 
 jobs:
-  clean-and-build:
+  rescue-and-build:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4.2.2 # Specifically v4.2.2+ targets Node 24
+        uses: actions/checkout@v4.2.2
 
       - name: Set up Python
-        uses: actions/setup-python@v5.4.0 # Specifically v5.4.0+ targets Node 24
+        uses: actions/setup-python@v5.4.0
         with:
           python-version: '3.10'
 
-      - name: Execute Deep-Scan Cleanup and Build
+      - name: Execute Safe Organization
         run: |
           python -c "
-          import os, shutil, hashlib
+          import os, shutil
           from pathlib import Path
 
-          STRUCTURE = [
-              'technical/engineering/archive_phase0',
-              'technical/datasheets',
-              'technical/manuals',
-              'technical/certs'
-          ]
+          # 1. Ensure the buckets exist
+          STRUCTURE = ['technical/datasheets', 'technical/manuals', 'technical/certs']
           for f in STRUCTURE: Path(f).mkdir(parents=True, exist_ok=True)
 
-          def get_hash(path):
-              hasher = hashlib.md5()
-              with open(path, 'rb') as f:
-                  for chunk in iter(lambda: f.read(4096), b''): hasher.update(chunk)
-              return hasher.hexdigest()
-
-          seen_hashes = {}
+          # 2. Simple Move (No Deletion)
+          # This looks in the root and /technical for any loose PDFs
           for pdf in Path('.').rglob('*.pdf'):
-              if any(sub in str(pdf) for sub in ['manuals', 'certs', 'datasheets']):
-                  h = get_hash(pdf)
-                  seen_hashes[h] = pdf.name
+              if 'technical/manuals' in str(pdf) or 'technical/certs' in str(pdf):
                   continue
-
-              h = get_hash(pdf)
-              if h in seen_hashes:
-                  pdf.unlink()
-              else:
-                  seen_hashes[h] = pdf.name
-                  shutil.move(str(pdf), f'technical/manuals/{pdf.name}')
+              
+              dest = Path('technical/manuals') / pdf.name
+              if not dest.exists():
+                  shutil.move(str(pdf), str(dest))
+                  print(f'Moved: {pdf.name}')
           "
           python generate_schematic.py
 
-      - name: Commit and Push Changes
+      - name: Commit and Push
         run: |
           git config --global user.name "Slate-Bot"
           git config --global user.email "bot@slatevans.com"
           git add .
-          git commit -m "Fixed: Silenced Node 20 warning spam" || echo "No changes to commit"
+          git commit -m "Safe Repo Sync: Recovered and Organized PDFs" || echo "No changes"
           git push
