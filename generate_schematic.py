@@ -89,7 +89,8 @@ def write_dxf(path):
 
     for k, (lab, x, y, wd, ht, lay) in COMPONENTS.items():
         # Draw Box
-        for p in [(x,y,x+wd,y), (x+wd,y,x+wd,y+ht), (x+wd,y+ht,x,y+ht), (x,y+ht,x,y)]: out.append(dxf_line(p[0],p[1],p[2],p[3],lay))
+        for p in [(x, y, x + wd, y), (x + wd, y, x + wd, y + ht), (x + wd, y + ht, x, y + ht), (x, y + ht, x, y)]:
+            out.append(dxf_line(p[0], p[1], p[2], p[3], lay))
         # Draw Centered Text
         lines = lab.split("\n")
         sy = y + ht/2 + (len(lines)*14)/2 - 14
