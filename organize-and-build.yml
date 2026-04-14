@@ -19,13 +19,13 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Execute Smart Cleanup and Build
+      - name: Execute Deep-Scan Cleanup and Build
         run: |
           python -c "
           import os, shutil, hashlib
           from pathlib import Path
 
-          # 1. Define Production Structure
+          # 1. Ensure Production Structure exists
           STRUCTURE = [
               'technical/engineering/archive_phase0',
               'technical/datasheets',
@@ -34,7 +34,7 @@ jobs:
           ]
           for f in STRUCTURE: Path(f).mkdir(parents=True, exist_ok=True)
 
-          # 2. Smart Deduplication & Global Search
+          # 2. Smart Deduplication & Recursive Search
           def get_hash(path):
               hasher = hashlib.md5()
               with open(path, 'rb') as f:
@@ -42,10 +42,10 @@ jobs:
               return hasher.hexdigest()
 
           seen_hashes = {}
-          # rglob('*.pdf') finds every PDF in every subfolder
+          # .rglob('*.pdf') is the 'deep-scan' tool - it finds everything
           for pdf in Path('.').rglob('*.pdf'):
-              # Skip files already in the correct destination to avoid loops
-              if 'technical/manuals' in str(pdf) or 'technical/certs' in str(pdf):
+              # Ignore files already in the final destination to avoid infinite loops
+              if 'technical/' in str(pdf):
                   h = get_hash(pdf)
                   seen_hashes[h] = pdf.name
                   continue
@@ -68,5 +68,5 @@ jobs:
           git config --global user.name "Slate-Bot"
           git config --global user.email "bot@slatevans.com"
           git add .
-          git commit -m "Fixed: Recursive Smart Cleanup and Phase 1 Build" || echo "No changes to commit"
+          git commit -m "Fixed: Recursive Deep-Scan Cleanup and Phase 1 Build" || echo "No changes to commit"
           git push
