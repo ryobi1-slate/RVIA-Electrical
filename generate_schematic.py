@@ -74,6 +74,34 @@ COMPONENTS = {
         "12V 200Ah LiFePO4\nBATTERY (UL1973)",
         730, 1300, 220, 160, "ELEC-DC"
     ),
+
+    # Phase 2 — distribution below house battery
+    # BAT right edge x=950, BAT left edge x=730
+    # B200A: positive side — center x = BAT right edge = 950
+    "B200A": (
+        "200A MAIN BREAKER",
+        850, 1140, 200, 80, "ELEC-DC"
+    ),
+    # SHUNT: negative side — center x = BAT left edge = 730
+    "SHUNT": (
+        "300A SHUNT",
+        650, 1160, 160, 60, "ELEC-DC"
+    ),
+    # POSBUS: center x = 950 (aligned with B200A), 60px gap from NEGBUS right
+    "POSBUS": (
+        "POSITIVE BUS",
+        870, 1020, 160, 40, "ELEC-DC"
+    ),
+    # NEGBUS: center x = 730 (aligned with SHUNT)
+    "NEGBUS": (
+        "NEGATIVE BUS",
+        650, 1020, 160, 40, "ELEC-DC"
+    ),
+    # CHASGRND: center x = 730 (aligned with NEGBUS)
+    "CHASGRND": (
+        "CHASSIS GROUND",
+        670, 880, 120, 60, "ELEC-GND"
+    ),
 }
 
 
@@ -143,6 +171,18 @@ def build_wires() -> None:
         (bat_top[0] + 50, 1550),
         (bat_top[0] + 50, bat_top[1]),
     )
+
+    # Phase 2 — distribution wiring below house battery
+    # BAT right → 200A main breaker (positive side), center x = 1270
+    add_wire("ELEC-DC", "2/0 AWG", edge("BAT", "right"), edge("B200A", "top"))
+    # BAT left → 300A shunt (negative side), center x = 1050
+    add_wire("ELEC-DC", "2/0 AWG", edge("BAT", "left"), edge("SHUNT", "top"))
+    # 200A breaker → positive bus
+    add_wire("ELEC-DC", "2/0 AWG", edge("B200A", "bottom"), edge("POSBUS", "top"))
+    # Shunt → negative bus
+    add_wire("ELEC-DC", "2/0 AWG", edge("SHUNT", "bottom"), edge("NEGBUS", "top"))
+    # Negative bus → chassis ground
+    add_wire("ELEC-GND", "2/0 AWG", edge("NEGBUS", "bottom"), edge("CHASGRND", "top"))
 
 
 # -----------------------------------------------------------------------------
