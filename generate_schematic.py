@@ -113,7 +113,16 @@ def pt(key, side, offset_along=0, offset_out=0):
 # ---------------------------------------------------------------------------
 WIRES = []
 
+# Marine-grade tinned copper conductors on this build are specified with a
+# 125°C insulation rating (per the conductor schedule in the BOM). Append
+# the rating to every AWG / cable-size callout so it prints on the TEXT
+# layer alongside the wire size.
+WIRE_TEMP_RATING = "125°C"
+
+
 def w(layer, label, *points):
+    if label and ("AWG" in label or "/" in label):
+        label = f"{label} {WIRE_TEMP_RATING}"
     WIRES.append((layer, label, list(points)))
 
 # --- Charging chain (top band) ------------------------------------------------
