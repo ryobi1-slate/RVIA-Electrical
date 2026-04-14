@@ -101,7 +101,8 @@ def write_dxf(path):
             out.append(dxf_text(tx, ty, 11, l))
 
     for lay, lab, pts in WIRES:
-        for p1, p2 in zip(pts[:-1], pts[1:]): out.append(dxf_line(p1[0],p1[1],p2[0],p2[1],lay))
+        for p1, p2 in zip(pts[:-1], pts[1:]):
+            out.append(dxf_line(p1[0], p1[1], p2[0], p2[1], lay))
         if lab:
             (x1, y1), (x2, y2) = pts[0], pts[1]
             tx, ty = ((x1+x2)/2-len(lab)*3.2, (y1+y2)/2+6) if y1==y2 else ((x1+x2)/2+6, (y1+y2)/2-5)
