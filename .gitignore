@@ -3,6 +3,8 @@
 *.PDF
 docs/
 manuals/
+regulatory/
+reference/
 
 # Exclude reference images
 *.png
