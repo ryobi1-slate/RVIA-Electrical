@@ -105,8 +105,55 @@ def write_dxf(path):
     out.append("0\nENDSEC\n0\nEOF\n")
     Path(path).write_text("".join(out))
 
+# ---------------------------------------------------------------------------
+# SVG Generation Logic - kept in lockstep with the DXF for quick visual review
+# ---------------------------------------------------------------------------
+SVG_STROKE = {"ELEC-DC": "#c0392b", "ELEC-AC": "#2c5aa0", "ELEC-GND": "#1e8449", "TEXT": "#111111"}
+
+def _svg_label(lab):
+    # AutoCAD's \U+00B0 escape is for the DXF; convert back to a literal
+    # degree glyph for the SVG so it renders directly in a browser.
+    return lab.replace("\\U+00B0", "\u00b0") if lab else lab
+
+def write_svg(path):
+    CANVAS_W, CANVAS_H = 2560, 2000
+    fy = lambda y: CANVAS_H - y
+    out = ['<?xml version="1.0" encoding="UTF-8"?>\n']
+    out.append(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {CANVAS_W} {CANVAS_H}" '
+               f'font-family="Arial, Helvetica, sans-serif" font-size="11" stroke-linecap="square">\n')
+    out.append('  <rect width="100%" height="100%" fill="white"/>\n')
+    out.append(f'  <text x="120" y="{fy(1960)}" font-size="22" font-weight="bold" fill="#111">'
+               f'SLATE 2026 RV &#8212; CHARGING SYSTEM (PHASE 1 LOCK)</text>\n')
+
+    # Wires first so component rectangles sit on top
+    for lay, lab, pts in WIRES:
+        stroke = SVG_STROKE[lay]
+        pts_str = " ".join(f"{x:.1f},{fy(y):.1f}" for x, y in pts)
+        out.append(f'  <polyline points="{pts_str}" fill="none" stroke="{stroke}" stroke-width="2"/>\n')
+        if lab:
+            (x1, y1), (x2, y2) = pts[0], pts[1]
+            mx, my = (x1+x2)/2, (y1+y2)/2
+            tx, ty, anchor = (mx, my+12, "middle") if y1 == y2 else (mx+6, my, "start")
+            out.append(f'  <text x="{tx:.1f}" y="{fy(ty):.1f}" text-anchor="{anchor}" '
+                       f'fill="#333" font-size="10">{_svg_label(lab)}</text>\n')
+
+    # Components
+    for k, (lab, x, y, wd, ht, lay) in COMPONENTS.items():
+        stroke = SVG_STROKE[lay]
+        out.append(f'  <rect x="{x:.1f}" y="{fy(y+ht):.1f}" width="{wd:.1f}" height="{ht:.1f}" '
+                   f'fill="white" stroke="{stroke}" stroke-width="2"/>\n')
+        lines = lab.split("\n")
+        sy = y + ht/2 + (len(lines)*14)/2 - 14
+        for i, l in enumerate(lines):
+            out.append(f'  <text x="{x+wd/2:.1f}" y="{fy(sy-i*14):.1f}" text-anchor="middle" '
+                       f'fill="#111">{l}</text>\n')
+
+    out.append('</svg>\n')
+    Path(path).write_text("".join(out))
+
 if __name__ == "__main__":
     out_dir = Path(__file__).parent / "output"
     out_dir.mkdir(exist_ok=True)
     write_dxf(out_dir / "slate_electrical_schematic.dxf")
+    write_svg(out_dir / "slate_electrical_schematic.svg")
     print(f"Phase 1 Schematic Generated in {out_dir}")
