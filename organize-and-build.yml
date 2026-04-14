@@ -34,15 +34,7 @@ jobs:
           ]
           for f in STRUCTURE: Path(f).mkdir(parents=True, exist_ok=True)
 
-          # 2. Archive Stale Phase 0 Artifacts
-          stale = ['output/slate_electrical_schematic.svg', 'output/slate_electrical_notes.md', 'output/slate_dc_demand_load.md']
-          archive_dir = Path('technical/engineering/archive_phase0')
-          for s in stale:
-              src = Path(s)
-              if src.exists():
-                  shutil.move(str(src), str(archive_dir / src.name))
-
-          # 3. Smart Deduplication & Sorting
+          # 2. Smart Deduplication & Global Search
           def get_hash(path):
               hasher = hashlib.md5()
               with open(path, 'rb') as f:
@@ -50,19 +42,25 @@ jobs:
               return hasher.hexdigest()
 
           seen_hashes = {}
-          # Scan root for PDFs to organize/deduplicate
-          for pdf in Path('.').glob('*.pdf'):
+          # rglob('*.pdf') finds every PDF in every subfolder
+          for pdf in Path('.').rglob('*.pdf'):
+              # Skip files already in the correct destination to avoid loops
+              if 'technical/manuals' in str(pdf) or 'technical/certs' in str(pdf):
+                  h = get_hash(pdf)
+                  seen_hashes[h] = pdf.name
+                  continue
+
               h = get_hash(pdf)
               if h in seen_hashes:
                   print(f'Deleting duplicate: {pdf.name}')
                   pdf.unlink()
               else:
                   seen_hashes[h] = pdf.name
-                  # Move to manuals as the default landing zone
-                  shutil.move(str(pdf), f'technical/manuals/{pdf.name}')
-                  print(f'Moved to manuals: {pdf.name}')
+                  dest = Path('technical/manuals') / pdf.name
+                  shutil.move(str(pdf), str(dest))
+                  print(f'Organized: {pdf.name} -> technical/manuals/')
           "
-          # 4. Generate the Phase 1 Schematic (DXF + SVG)
+          # 3. Generate the Phase 1 Schematic
           python generate_schematic.py
 
       - name: Commit and Push Changes
@@ -70,5 +68,5 @@ jobs:
           git config --global user.name "Slate-Bot"
           git config --global user.email "bot@slatevans.com"
           git add .
-          git commit -m "Automated Smart Cleanup: Deduplicated and Organized Tech Files" || echo "No changes to commit"
+          git commit -m "Fixed: Recursive Smart Cleanup and Phase 1 Build" || echo "No changes to commit"
           git push
