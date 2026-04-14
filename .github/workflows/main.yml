@@ -1,0 +1,34 @@
+name: Slate Repo Sync and Build
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch: # Allows manual trigger
+
+jobs:
+  organize-and-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Execute Cleanup and Schematic Build
+        run: |
+          # 1. Run the organization script (provided below)
+          python organize_repo.py
+          
+          # 2. Run the updated Phase 1 script
+          python technical/engineering/generate_schematic.py
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "Slate-Bot"
+          git config --global user.email "bot@slatevans.com"
+          git add .
+          git commit -m "Automated Phase 1 organization and build" || echo "No changes to commit"
+          git push
