@@ -5,11 +5,34 @@ Create a clean 2D one-line RV electrical schematic as a DXF file for AutoCAD.
 
 This is a schematic drawing, not a physical installation layout.
 
+## Delivery phases
+
+This schematic is built up **incrementally in phases**. Each phase locks in a
+subsystem before the next is layered on top, so the in-repo generator may
+intentionally render a subset of the "Required system content" list below.
+The full list represents the **end-state scope** after all phases are
+complete, not the scope of any single intermediate phase.
+
+| Phase | Scope | Generator output | Status |
+|-------|-------|------------------|--------|
+| Phase 0 | First-pass full-system one-line drawing (charging + main DC + DC distribution + DC loads + AC + grounds) | Archived under `output/phase0_archive/` | Reference only |
+| Phase 1 | Charging subsystem lock: Solar Panel, 25A Solar Breaker, DC-DC + MPPT, 60A Charge Breaker, 80A Alt Breaker, Chassis Battery, House Battery, and all 125°C marine conductors between them | `output/slate_electrical_schematic.dxf` + `.svg` | **Current** |
+| Phase 2 | Main DC protection + negative path: 200A battery breaker, 300A shunt, negative bus, chassis/rear OEM grounds | Layered onto Phase 1 output | Planned |
+| Phase 3 | DC Distribution Panel + all 12 fused DC branch circuits | Layered onto Phase 2 output | Planned |
+| Phase 4 | AC subsystem: Shore Inlet, Inverter/Charger/Transfer Switch, AC Distribution Panel, GFCI 1, GFCI 2, Optional Air Conditioner, AC grounds | Layered onto Phase 3 output | Planned |
+
+Until Phase 4 completes, the live `output/slate_electrical_schematic.dxf`
+and `output/slate_electrical_schematic.svg` reflect the current phase's
+scope only. The full-system reference drawing is preserved in
+`output/phase0_archive/slate_electrical_schematic.svg` along with its
+original notes (`output/phase0_archive/slate_electrical_notes.md`) and the
+DC demand load calculation (`output/phase0_archive/slate_dc_demand_load.md`).
+
 ## Source of truth
 Use `source-diagram.pdf` as the source of components, fuse sizes, breaker sizes, wire sizes, and naming.
 
 ## Required system content
-From the source diagram, include:
+From the source diagram, include (end-state, across all phases combined):
 
 - 200W Solar Panel
 - DC to DC + MPPT
