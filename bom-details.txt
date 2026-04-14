@@ -1,0 +1,64 @@
+Type	BOM Name	BOM #	Description	Cert on File	Vendor Part #
+Heater	2026 RVIA Build - Diesel Heater		Clamp 036 46mm-70mm (Breeze USA No. 36)		5550004
+Heater	2026 RVIA Build - Diesel Heater		Dorman Quick Connector 5/16" Steel to 6mm Nylon 180 with O-Ring, 2-Pack		800-188
+Heater	2026 RVIA Build - Diesel Heater		Eberspacher 26-28mm Exhaust Clamp W/ Nut		152.61.102
+Heater	2026 RVIA Build - Diesel Heater		Eberspacher Air outlet Outlet for 50mm or 60mm ducting 221000010056		22.1000.01.0056.0Z
+Heater	2026 RVIA Build - Diesel Heater		Eberspacher Clamp 11mm		10.2068.01.1098
+Heater	2026 RVIA Build - Diesel Heater		Eberspacher Exhaust Muffler 24mm (New)		25.1864.81.0100
+Heater	2026 RVIA Build - Diesel Heater		Eberspacher Fuel Line Adapter 7.5mm — 3.5mm		22.1000.20.3000
+Heater	2026 RVIA Build - Diesel Heater		Espar AS3 D2L 12V Diesel Heater — Full Kit		20.2829.53.0201
+Electrical	AC/DC Electrical		12-10 AWG to 14-16 AWG Step-Down Butt Splice		HSBSD-100
+Electrical	AC/DC Electrical		12V USB-C Outlet PD 100W 		
+Electrical	AC/DC Electrical		2/0 AWG Tinned Copper Lug — 3/8" Stud		
+Electrical	AC/DC Electrical		2/0 AWG Tinned Copper Lug — 5/16" Stud		MD2056P
+Electrical	AC/DC Electrical		3:1 Adhesive Lined Polyolefin Heat Shrink — Red/Black Assortment		
+Electrical	AC/DC Electrical		4 AWG Tinned Copper Lug — 5/16 Stud		MDS0456P-10
+Electrical	AC/DC Electrical		4 AWG Tinned Copper Lug — 1/4" Stud		MD0414P
+Electrical	AC/DC Electrical		4-Post Power Distribution Bus Bar, 250A — ? Confirm brand/rating; Blue Sea 2149 is listed fallback		TBD
+Electrical	AC/DC Electrical		8 AWG Tinned Copper Lug — 5/16 Stud		MDS0856P-10
+Electrical	AC/DC Electrical		Pacer Tinned Copper Battery Cable, 2/0 AWG, Black		WUL2/0BK-25
+Electrical	AC/DC Electrical		Pacer Tinned Copper Battery Cable, 2/0 AWG, Red		WUL2/0RD-25
+Electrical	AC/DC Electrical		Pacer Tinned Copper Wire, 12 AWG Duplex		W12/2DC-250
+Electrical	AC/DC Electrical		Pacer Tinned Copper Wire, 14 AWG Duplex		W14/2DC-500
+Electrical	AC/DC Electrical		Ancor Tinned Copper Wire, 4 AWG, Black		113050
+Electrical	AC/DC Electrical		Ancor Tinned Copper Wire, 4 AWG, Red		113550
+Electrical	AC/DC Electrical		Pacer Tinned Copper Wire, 6 AWG, Black		WUL6BK-100
+Electrical	AC/DC Electrical		Pacer Tinned Copper Wire, 6 AWG, Red		WUL6RD-100
+Electrical	AC/DC Electrical		Ancor Tinned Copper Wire, 8 AWG, Black		111025
+Electrical	AC/DC Electrical		Ancor Tinned Copper Wire, 8 AWG, Green		111350
+Electrical	AC/DC Electrical		Ancor Tinned Copper Wire, 8 AWG, Red		111525
+Electrical	AC/DC Electrical		Ancor Triplex Cable, 10/3 AWG Flat		131150
+Electrical	AC/DC Electrical		Ancor Triplex Cable, 12/3 AWG Flat		131370
+Electrical	AC/DC Electrical		ATC/ATO Automotive Blade Fuse — 15A		ATO15B
+Electrical	AC/DC Electrical		ATC/ATO Automotive Blade Fuse — 20A		ATO20B
+Electrical	AC/DC Electrical		ATC/ATO Automotive Blade Fuse — 7.5A		ATO7.5B
+Electrical	AC/DC Electrical		Carlon 1-Gang Blue Non-Metallic Old Work Outlet Box, 14 cu. in.		B114RB
+Electrical	AC/DC Electrical		Conntek 80425-A-SQBK 30A Square Housing Shore Power Inlet 		80425-A-SQBK
+Electrical	AC/DC Electrical		Eaton Bussmann 185 Series Surface Mount Circuit Breaker, 60A, 42VDC		185060F-01-1
+Electrical	AC/DC Electrical		Eaton Bussmann 185 Series Surface Mount Circuit Breaker, 80A, 42VDC		185080F-01-1
+Electrical	AC/DC Electrical		Eaton Bussmann 187 Series Surface Mount Circuit Breaker, 200A, 48VDC		187200F-03-1
+Electrical	AC/DC Electrical		Eaton Bussmann 187 Series Surface Mount Circuit Breaker, 25A, 48VDC		187025F-03-1
+Electrical	AC/DC Electrical		Legrand GFCI Outlets, Tamper Resistant 15A 125V 		1597TRBKCCD4
+Electrical	AC/DC Electrical		Leviton Black 1-Gang Decorator/Rocker Wall Plate		R55-0PJ26-00E
+Electrical	AC/DC Electrical		Marine Grade 12V Power Socket		AS-212A
+Electrical	AC/DC Electrical		Marine Grade Dual Port USB-A Charger, 3.4A, Water Resistant		AS-234E-A
+Electrical	AC/DC Electrical		RVMATE 30 Feet 30 Amp RV Lockable Power Extension Cord with Easy Plug-in Handle, TT-30P to L5-30R		C3030L-RM
+Electrical	AC/DC Electrical		Scanstrut DS-HD6-BLK Cable Seal		DS-HD6-BLK
+Electrical	AC/DC Electrical		Voltive 22/3 Riser Low Voltage Wire		V-1292
+Electrical	AC/DC Electrical		WFCO WF-8930/50NPB 30A AC Distribution Panel		WF-8930/50NPB
+Electrical	Charging Sources		Flatline Van Solar Panel Mounting Brackets — Standard 1.5"		UN0108B
+Electrical	Charging Sources		Renogy 50-Amp 12V DC-to-DC On-Board Battery Charger with MPPT 		RBC50D1S-G7-US
+Electrical	Charging Sources		Rich Solar MEGA 200 ONYX | 200 Watt Solar Panel		RS-M200B
+Electrical	Charging Sources		Victron Energy MC4 Solar Splitter Y Cable Pair (Male/Female)		SCA520500000
+Electrical	House Battery System		Renogy Battery Shunt 300A		RSHST-B02P300
+Electrical	House Battery System		Renogy Monitoring Screen for DC-to-DC MPPT Battery Chargers		RMS-DCDC
+Electrical	House Battery System		Rich Solar ALPHA 2 PRO | 12V 200Ah LiFePO4 Battery 		RS-B122SP
+Electrical	House Battery System		Rich Solar Inverter Remote Controller with LCD		RS-RM02
+Electrical	House Battery System		Rich Solar NOVA SUPERCHARGER 2K | 2000W 12V Pure Sine Wave Inverter Charger		RS-V2P12C
+Electrical	Lighting		Acegoo RV Light Ultra-Thin Dimmable Light(6 Pack,3000K) 12V Dimmer Switch Bundle Black		
+Electrical	Lighting		APIELE 12mm black aluminum high-head momentary white ring LED, pre-wired, 12V		AP12BH10EA6W-T (GQ12BH-10E/A)
+Electrical	Lighting		APIELE 19mm black aluminum flat-head momentary white ring LED, pre-wired/socket plug, 12V		AP19BF11EA6WT (GQ19F-11E/A)
+Electrical	Lighting		Axion Lighting Shelly Plus 1		 Shelly-Plus-1-1-UL
+Electrical	Lighting		WisHomee 12V Dimmable LED Reading Light with USB Charging		
+Electrical	Refrigerator		Flange for Indel B Cruise 65 Clean Touch		ISO SGB00191US
+Electrical	Refrigerator		Indel B 65L 12VDC Compressor Fridge/Freezer		OFF CCRL065N1P03W0NNO00
