@@ -26,7 +26,24 @@
   <polyline points="780.0,840.0 780.0,940.0" fill="none" stroke="#c0392b" stroke-width="2"/>
   <text x="795.0" y="890.0" text-anchor="start" fill="#333" font-size="10">2/0 AWG 125°C</text>
   <polyline points="780.0,980.0 780.0,1060.0" fill="none" stroke="#1e8449" stroke-width="2"/>
-  <text x="795.0" y="1020.0" text-anchor="start" fill="#333" font-size="10">2/0 AWG 125°C</text>
+  <text x="788.0" y="1020.0" text-anchor="start" fill="#333" font-size="10">2/0 AWG 125°C</text>
+  <polyline points="300.0,1520.0 380.0,1520.0" fill="none" stroke="#2c5aa0" stroke-width="2"/>
+  <text x="340.0" y="1508.0" text-anchor="middle" fill="#333" font-size="10">10/3 125°C</text>
+  <polyline points="680.0,1520.0 780.0,1520.0" fill="none" stroke="#2c5aa0" stroke-width="2"/>
+  <text x="730.0" y="1508.0" text-anchor="middle" fill="#333" font-size="10">10/3 125°C</text>
+  <polyline points="1020.0,1480.0 1180.0,1480.0" fill="none" stroke="#2c5aa0" stroke-width="2"/>
+  <text x="1100.0" y="1468.0" text-anchor="middle" fill="#333" font-size="10">GFCI 1 (15A)</text>
+  <polyline points="1020.0,1510.0 1180.0,1510.0" fill="none" stroke="#2c5aa0" stroke-width="2"/>
+  <text x="1100.0" y="1498.0" text-anchor="middle" fill="#333" font-size="10">GFCI 2 (15A)</text>
+  <polyline points="1020.0,1540.0 1180.0,1540.0" fill="none" stroke="#2c5aa0" stroke-width="2"/>
+  <text x="1100.0" y="1528.0" text-anchor="middle" fill="#333" font-size="10">OPTIONAL AC (20A)</text>
+  <polyline points="850.0,960.0 850.0,1360.0 560.0,1360.0 560.0,1420.0" fill="none" stroke="#c0392b" stroke-width="2"/>
+  <text x="858.0" y="1160.0" text-anchor="start" fill="#333" font-size="10">2/0 AWG 125°C</text>
+  <polyline points="730.0,960.0 680.0,960.0 680.0,1340.0 480.0,1340.0 480.0,1420.0" fill="none" stroke="#c0392b" stroke-width="2"/>
+  <text x="705.0" y="948.0" text-anchor="middle" fill="#333" font-size="10">2/0 AWG 125°C</text>
+  <polyline points="950.0,960.0 1080.0,960.0" fill="none" stroke="#c0392b" stroke-width="2"/>
+  <text x="1015.0" y="948.0" text-anchor="middle" fill="#333" font-size="10">2/0 AWG 125°C</text>
+  <polyline points="830.0,960.0 830.0,1040.0 1080.0,1040.0" fill="none" stroke="#c0392b" stroke-width="2"/>
   <rect x="120.0" y="180.0" width="220.0" height="120.0" fill="white" stroke="#c0392b" stroke-width="2"/>
   <text x="230.0" y="247.0" text-anchor="middle" fill="#111">200W SOLAR PANEL</text>
   <rect x="440.0" y="200.0" width="180.0" height="80.0" fill="white" stroke="#c0392b" stroke-width="2"/>
@@ -53,4 +70,28 @@
   <text x="780.0" y="967.0" text-anchor="middle" fill="#111">NEGATIVE BUS</text>
   <rect x="720.0" y="1060.0" width="120.0" height="60.0" fill="white" stroke="#1e8449" stroke-width="2"/>
   <text x="780.0" y="1097.0" text-anchor="middle" fill="#111">CHASSIS GROUND</text>
+  <rect x="120.0" y="1480.0" width="180.0" height="80.0" fill="white" stroke="#2c5aa0" stroke-width="2"/>
+  <text x="210.0" y="1520.0" text-anchor="middle" fill="#111">SHORE INLET</text>
+  <text x="210.0" y="1534.0" text-anchor="middle" fill="#111">(30A)</text>
+  <rect x="380.0" y="1420.0" width="300.0" height="200.0" fill="white" stroke="#2c5aa0" stroke-width="2"/>
+  <text x="530.0" y="1513.0" text-anchor="middle" fill="#111">INVERTER / CHARGER /</text>
+  <text x="530.0" y="1527.0" text-anchor="middle" fill="#111">TRANSFER SWITCH</text>
+  <text x="530.0" y="1541.0" text-anchor="middle" fill="#111">(UL458)</text>
+  <rect x="780.0" y="1460.0" width="240.0" height="120.0" fill="white" stroke="#2c5aa0" stroke-width="2"/>
+  <text x="900.0" y="1520.0" text-anchor="middle" fill="#111">AC DISTRIBUTION</text>
+  <text x="900.0" y="1534.0" text-anchor="middle" fill="#111">PANEL</text>
+  <rect x="1080.0" y="900.0" width="440.0" height="280.0" fill="white" stroke="#c0392b" stroke-width="2"/>
+  <text x="1300.0" y="963.0" text-anchor="middle" fill="#111">DC DISTRIBUTION PANEL</text>
+  <text x="1300.0" y="977.0" text-anchor="middle" fill="#111">F1  Heater           15A</text>
+  <text x="1300.0" y="991.0" text-anchor="middle" fill="#111">F2  Water Pump       15A</text>
+  <text x="1300.0" y="1005.0" text-anchor="middle" fill="#111">F3  Refrigerator     10A</text>
+  <text x="1300.0" y="1019.0" text-anchor="middle" fill="#111">F4  Fan 1             7.5A</text>
+  <text x="1300.0" y="1033.0" text-anchor="middle" fill="#111">F5  Fan 2             7.5A</text>
+  <text x="1300.0" y="1047.0" text-anchor="middle" fill="#111">F6  Ceiling Lights   10A</text>
+  <text x="1300.0" y="1061.0" text-anchor="middle" fill="#111">F7  Reading Lights    7.5A</text>
+  <text x="1300.0" y="1075.0" text-anchor="middle" fill="#111">F8  USB A 1          10A</text>
+  <text x="1300.0" y="1089.0" text-anchor="middle" fill="#111">F9  USB A 2          10A</text>
+  <text x="1300.0" y="1103.0" text-anchor="middle" fill="#111">F10 12V Socket 1     15A</text>
+  <text x="1300.0" y="1117.0" text-anchor="middle" fill="#111">F11 12V Socket 2     15A</text>
+  <text x="1300.0" y="1131.0" text-anchor="middle" fill="#111">F12 USB C 100W       15A</text>
 </svg>

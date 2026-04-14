@@ -102,6 +102,39 @@ COMPONENTS = {
         "CHASSIS GROUND",
         720, 880, 120, 60, "ELEC-GND"
     ),
+
+    # Phase 3 — AC system (lower band, y=380-580)
+    # Shore inlet lower-left; AC path reads left → right
+    "SHORE": (
+        "SHORE INLET\n(30A)",
+        120, 440, 180, 80, "ELEC-AC"
+    ),
+    "INV": (
+        "INVERTER / CHARGER /\nTRANSFER SWITCH\n(UL458)",
+        380, 380, 300, 200, "ELEC-AC"
+    ),
+    "ACPANEL": (
+        "AC DISTRIBUTION\nPANEL",
+        780, 420, 240, 120, "ELEC-AC"
+    ),
+
+    # Phase 3 — DC distribution panel (right of buses, y=820-1100)
+    "DCPANEL": (
+        "DC DISTRIBUTION PANEL\n"
+        "F1  Heater           15A\n"
+        "F2  Water Pump       15A\n"
+        "F3  Refrigerator     10A\n"
+        "F4  Fan 1             7.5A\n"
+        "F5  Fan 2             7.5A\n"
+        "F6  Ceiling Lights   10A\n"
+        "F7  Reading Lights    7.5A\n"
+        "F8  USB A 1          10A\n"
+        "F9  USB A 2          10A\n"
+        "F10 12V Socket 1     15A\n"
+        "F11 12V Socket 2     15A\n"
+        "F12 USB C 100W       15A",
+        1080, 820, 440, 280, "ELEC-DC"
+    ),
 }
 
 
@@ -183,6 +216,44 @@ def build_wires() -> None:
     add_wire("ELEC-DC", "2/0 AWG", edge("SHUNT", "bottom"), edge("NEGBUS", "top"))
     # Negative bus → chassis ground
     add_wire("ELEC-GND", "2/0 AWG", edge("NEGBUS", "bottom"), edge("CHASGRND", "top"))
+
+    # Phase 3 — AC system wiring (ELEC-AC layer, blue)
+    # Shore inlet → inverter AC input
+    add_wire("ELEC-AC", "10/3", edge("SHORE", "right"), edge("INV", "left"))
+    # Inverter AC output → AC distribution panel
+    add_wire("ELEC-AC", "10/3", edge("INV", "right"), edge("ACPANEL", "left"))
+    # AC branch circuit stubs from panel right (labeled by fuse; no AWG temp suffix)
+    add_wire("ELEC-AC", "GFCI 1 (15A)",       (1020, 520), (1180, 520))
+    add_wire("ELEC-AC", "GFCI 2 (15A)",       (1020, 490), (1180, 490))
+    add_wire("ELEC-AC", "OPTIONAL AC (20A)",   (1020, 460), (1180, 460))
+
+    # Phase 3 — Inverter DC feeds (ELEC-DC, routed to clear CHASGRND and each other)
+    # DC+ route: POSBUS left → down at x=850 → left at y=640 → into INV top at x=560
+    add_wire("ELEC-DC", "2/0 AWG",
+             edge("POSBUS", "left"),   # (850, 1040)
+             (850, 640),
+             (560, 640),
+             (560, 580))               # INV top DC+
+    # DC- route: NEGBUS left → left to x=680 → down at x=680 → left at y=660 → INV top x=480
+    # x=680 clears CHASGRND (720-840) and does not cross DC+ horizontal at y=640
+    add_wire("ELEC-DC", "2/0 AWG",
+             edge("NEGBUS", "left"),   # (730, 1040)
+             (680, 1040),
+             (680, 660),
+             (480, 660),
+             (480, 580))               # INV top DC-
+
+    # Phase 3 — DC distribution panel feeds
+    # POSBUS right → DC panel (positive feed)
+    add_wire("ELEC-DC", "2/0 AWG",
+             edge("POSBUS", "right"),  # (950, 1040)
+             (1080, 1040))
+    # NEGBUS right → DC panel (negative reference)
+    # Jogs up to y=960 to clear POSBUS feed line, then right to panel
+    add_wire("ELEC-DC", None,
+             edge("NEGBUS", "right"),  # (830, 1040)
+             (830, 960),
+             (1080, 960))
 
 
 # -----------------------------------------------------------------------------
