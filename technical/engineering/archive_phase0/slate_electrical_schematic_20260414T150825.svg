@@ -26,23 +26,23 @@
   <polyline points="780.0,840.0 780.0,940.0" fill="none" stroke="#c0392b" stroke-width="2"/>
   <text x="795.0" y="890.0" text-anchor="start" fill="#333" font-size="10">2/0 AWG 125°C</text>
   <polyline points="780.0,980.0 780.0,1060.0" fill="none" stroke="#1e8449" stroke-width="2"/>
-  <text x="795.0" y="1020.0" text-anchor="start" fill="#333" font-size="10">2/0 AWG 125°C</text>
+  <text x="788.0" y="1020.0" text-anchor="start" fill="#333" font-size="10">2/0 AWG 125°C</text>
   <polyline points="300.0,1520.0 380.0,1520.0" fill="none" stroke="#2c5aa0" stroke-width="2"/>
-  <text x="340.0" y="1505.0" text-anchor="middle" fill="#333" font-size="10">10/3 125°C</text>
+  <text x="340.0" y="1508.0" text-anchor="middle" fill="#333" font-size="10">10/3 125°C</text>
   <polyline points="680.0,1520.0 780.0,1520.0" fill="none" stroke="#2c5aa0" stroke-width="2"/>
-  <text x="730.0" y="1505.0" text-anchor="middle" fill="#333" font-size="10">10/3 125°C</text>
+  <text x="730.0" y="1508.0" text-anchor="middle" fill="#333" font-size="10">10/3 125°C</text>
   <polyline points="1020.0,1480.0 1180.0,1480.0" fill="none" stroke="#2c5aa0" stroke-width="2"/>
-  <text x="1100.0" y="1465.0" text-anchor="middle" fill="#333" font-size="10">GFCI 1 (15A)</text>
+  <text x="1100.0" y="1468.0" text-anchor="middle" fill="#333" font-size="10">GFCI 1 (15A)</text>
   <polyline points="1020.0,1510.0 1180.0,1510.0" fill="none" stroke="#2c5aa0" stroke-width="2"/>
-  <text x="1100.0" y="1495.0" text-anchor="middle" fill="#333" font-size="10">GFCI 2 (15A)</text>
+  <text x="1100.0" y="1498.0" text-anchor="middle" fill="#333" font-size="10">GFCI 2 (15A)</text>
   <polyline points="1020.0,1540.0 1180.0,1540.0" fill="none" stroke="#2c5aa0" stroke-width="2"/>
-  <text x="1100.0" y="1525.0" text-anchor="middle" fill="#333" font-size="10">OPTIONAL AC (20A)</text>
+  <text x="1100.0" y="1528.0" text-anchor="middle" fill="#333" font-size="10">OPTIONAL AC (20A)</text>
   <polyline points="850.0,960.0 850.0,1360.0 560.0,1360.0 560.0,1420.0" fill="none" stroke="#c0392b" stroke-width="2"/>
-  <text x="865.0" y="1160.0" text-anchor="start" fill="#333" font-size="10">2/0 AWG 125°C</text>
+  <text x="858.0" y="1160.0" text-anchor="start" fill="#333" font-size="10">2/0 AWG 125°C</text>
   <polyline points="730.0,960.0 680.0,960.0 680.0,1340.0 480.0,1340.0 480.0,1420.0" fill="none" stroke="#c0392b" stroke-width="2"/>
-  <text x="705.0" y="945.0" text-anchor="middle" fill="#333" font-size="10">2/0 AWG 125°C</text>
+  <text x="705.0" y="948.0" text-anchor="middle" fill="#333" font-size="10">2/0 AWG 125°C</text>
   <polyline points="950.0,960.0 1080.0,960.0" fill="none" stroke="#c0392b" stroke-width="2"/>
-  <text x="1015.0" y="945.0" text-anchor="middle" fill="#333" font-size="10">2/0 AWG 125°C</text>
+  <text x="1015.0" y="948.0" text-anchor="middle" fill="#333" font-size="10">2/0 AWG 125°C</text>
   <polyline points="830.0,960.0 830.0,1040.0 1080.0,1040.0" fill="none" stroke="#c0392b" stroke-width="2"/>
   <rect x="120.0" y="180.0" width="220.0" height="120.0" fill="white" stroke="#c0392b" stroke-width="2"/>
   <text x="230.0" y="247.0" text-anchor="middle" fill="#111">200W SOLAR PANEL</text>
