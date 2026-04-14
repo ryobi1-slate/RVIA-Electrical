@@ -58,9 +58,11 @@ jobs:
                   pdf.unlink()
               else:
                   seen_hashes[h] = pdf.name
+                  # Move to manuals as the default landing zone
                   shutil.move(str(pdf), f'technical/manuals/{pdf.name}')
+                  print(f'Moved to manuals: {pdf.name}')
           "
-          # 4. Generate the Phase 1 Schematic
+          # 4. Generate the Phase 1 Schematic (DXF + SVG)
           python generate_schematic.py
 
       - name: Commit and Push Changes
