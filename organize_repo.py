@@ -1,20 +1,20 @@
 """
-organize_repo.py
+organize_repo.py  —  safe intake script
 
-Classifies and moves PDFs from:
-  - repo root
-  - technical/ root (files not yet sorted into a subfolder)
+Scope: repo root PDFs only.
+This script does NOT scan, move, or delete anything inside technical/,
+regulatory/, or output/. It is an intake gate, not a cleanup tool.
 
 Routing rules (first match wins, case-insensitive):
-  certs       : cert, certificate, coc, cofc, ul, etl, csa,
-                listing, security, compliance
-  datasheets  : datasheet, spec, specification, cutsheet
-  manuals     : manual, install, installation, owner, guide
-  (no match)  : technical/engineering/archive_phase0
+  certs      : cert, certificate, coc, cofc, ul, etl, csa,
+               listing, security, compliance
+  datasheets : datasheet, spec, specification, cutsheet
+  manuals    : manual, install, installation, owner, guide
+  (no match) : technical/engineering/archive_phase0
 
-Collision handling at destination:
-  - Same name, identical content  -> delete the incoming duplicate
-  - Same name, different content  -> move with a UTC timestamp suffix
+Collision policy:
+  If the destination file already exists, the source is LEFT IN PLACE
+  and a conflict message is printed. Nothing is deleted or overwritten.
 """
 
 import shutil
@@ -24,7 +24,7 @@ from pathlib import Path
 
 
 # ---------------------------------------------------------------------------
-# Directory structure
+# Directory structure to ensure exists
 # ---------------------------------------------------------------------------
 
 STRUCTURE = [
@@ -37,7 +37,7 @@ STRUCTURE = [
 FALLBACK_DIR = Path("technical/engineering/archive_phase0")
 
 # ---------------------------------------------------------------------------
-# Files that must never be moved or deleted by this script.
+# Files that must never be moved by this script.
 # ---------------------------------------------------------------------------
 
 PROTECTED_FILES = {
@@ -76,14 +76,6 @@ ROUTING_RULES = [
 # Helpers
 # ---------------------------------------------------------------------------
 
-def get_file_hash(path: Path) -> str:
-    hasher = hashlib.md5()
-    with open(path, "rb") as f:
-        for chunk in iter(lambda: f.read(4096), b""):
-            hasher.update(chunk)
-    return hasher.hexdigest()
-
-
 def classify(filename: str) -> Path:
     """Return the correct destination folder for a PDF based on its filename."""
     lower = filename.lower()
@@ -93,28 +85,20 @@ def classify(filename: str) -> Path:
     return FALLBACK_DIR
 
 
-def safe_move(src: Path, dest_dir: Path, timestamp: str) -> None:
+def safe_move(src: Path, dest_dir: Path) -> None:
     """
-    Move src into dest_dir, handling name collisions safely.
-
-    - No collision          : move directly.
-    - Same name, same hash  : delete src (exact duplicate).
-    - Same name, diff hash  : move src with a timestamp suffix.
+    Move src into dest_dir only if the destination does not already exist.
+    If the destination exists, print a conflict message and leave src in place.
+    Nothing is ever deleted.
     """
     dest = dest_dir / src.name
 
-    if not dest.exists():
-        shutil.move(str(src), str(dest))
-        print(f"    Moved      -> {dest}")
+    if dest.exists():
+        print(f"    CONFLICT: {dest} already exists — leaving {src.name} in place")
         return
 
-    if get_file_hash(src) == get_file_hash(dest):
-        src.unlink()
-        print(f"    Duplicate  -> deleted {src.name} (identical copy already in {dest_dir.name})")
-    else:
-        stamped = dest_dir / f"{src.stem}_{timestamp}{src.suffix}"
-        shutil.move(str(src), str(stamped))
-        print(f"    Conflict   -> moved as {stamped.name} (differs from existing)")
+    shutil.move(str(src), str(dest))
+    print(f"    Moved -> {dest}")
 
 
 # ---------------------------------------------------------------------------
@@ -153,28 +137,22 @@ def organize_and_deduplicate() -> None:
     print("\n=== Archiving prior outputs ===")
     archive_outputs(timestamp)
 
-    # 3. Collect PDFs to classify.
-    #    Scan repo root and technical/ root (one level only, not recursive).
-    #    This catches files that were never sorted AND newly dropped root PDFs.
-    scan_dirs = [Path("."), Path("technical")]
-    pdfs: list[Path] = []
-
-    for scan_dir in scan_dirs:
-        for f in scan_dir.glob("*.pdf"):
-            if f.name in PROTECTED_FILES:
-                continue
-            pdfs.append(f)
+    # 3. Scan repo root only — no recursion, no technical/ scanning.
+    pdfs = [
+        f for f in Path(".").glob("*.pdf")
+        if f.name not in PROTECTED_FILES
+    ]
 
     if not pdfs:
-        print("\n=== No PDFs to classify ===\n")
+        print("\n=== No new root-level PDFs to intake ===\n")
         return
 
-    print(f"\n=== Classifying {len(pdfs)} PDF(s) ===")
+    print(f"\n=== Intake: {len(pdfs)} root-level PDF(s) ===")
     for pdf in sorted(pdfs):
         dest_dir = classify(pdf.name)
         print(f"  {pdf.name!r}")
         print(f"    Rule match -> {dest_dir}")
-        safe_move(pdf, dest_dir, timestamp)
+        safe_move(pdf, dest_dir)
 
     print("\n=== Done ===\n")
 
