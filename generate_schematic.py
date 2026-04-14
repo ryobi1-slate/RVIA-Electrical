@@ -53,7 +53,7 @@ COMPONENTS = {
         440, 1720, 180, 80, "ELEC-DC"
     ),
     "DCDC": (
-        "DC-DC + MPPT\n(Solar + Alt Inputs)",
+        "DC-DC + MPPT\n(Solar + Alt)",
         720, 1700, 240, 120, "ELEC-DC"
     ),
     "B60A": (
@@ -69,10 +69,10 @@ COMPONENTS = {
         1640, 1700, 220, 120, "ELEC-DC"
     ),
 
-    # Middle band
+    # Middle band — centered under B60A (center x 1160 = B60A center x)
     "BAT": (
         "12V 200Ah LiFePO4\nBATTERY (UL1973)",
-        730, 1300, 220, 160, "ELEC-DC"
+        1050, 1300, 220, 160, "ELEC-DC"
     ),
 
     # Phase 2 — distribution below house battery
@@ -152,8 +152,8 @@ def build_wires() -> None:
         "ELEC-DC",
         "4 AWG",
         edge("B80A", "top"),
-        (edge("B80A", "top")[0], 1850),
-        (edge("DCDC", "top")[0], 1850),
+        (edge("B80A", "top")[0], 1920),
+        (edge("DCDC", "top")[0], 1920),
         edge("DCDC", "top"),
     )
 
@@ -252,9 +252,9 @@ def write_dxf(path: Path) -> None:
             (x1, y1), (x2, y2) = pts[0], pts[1]
             if y1 == y2:
                 tx = (x1 + x2) / 2 - len(label) * 3.2
-                ty = y1 + 10
+                ty = y1 + 15
             else:
-                tx = x1 + 6
+                tx = x1 + 15
                 ty = (y1 + y2) / 2
             out.append(dxf_text(tx, ty, 9, label))
 
@@ -315,9 +315,9 @@ def write_svg(path: Path) -> None:
             mx = (x1 + x2) / 2
             my = (y1 + y2) / 2
             if y1 == y2:
-                tx, ty, anchor = mx, my + 12, "middle"
+                tx, ty, anchor = mx, my + 15, "middle"
             else:
-                tx, ty, anchor = x1 + 8, my, "start"
+                tx, ty, anchor = x1 + 15, my, "start"
 
             out.append(
                 f'  <text x="{tx:.1f}" y="{flip_y(ty):.1f}" text-anchor="{anchor}" '
