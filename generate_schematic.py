@@ -105,7 +105,12 @@ def write_dxf(path):
             out.append(dxf_line(p1[0], p1[1], p2[0], p2[1], lay))
         if lab:
             (x1, y1), (x2, y2) = pts[0], pts[1]
-            tx, ty = ((x1+x2)/2-len(lab)*3.2, (y1+y2)/2+6) if y1==y2 else ((x1+x2)/2+6, (y1+y2)/2-5)
+            if y1 == y2:
+                tx = (x1 + x2) / 2 - len(lab) * 3.2
+                ty = (y1 + y2) / 2 + 6
+            else:
+                tx = (x1 + x2) / 2 + 6
+                ty = (y1 + y2) / 2 - 5
             out.append(dxf_text(tx, ty, 9, lab))
 
     out.append(dxf_text(120, 1950, 22, "SLATE 2026 RV - CHARGING SYSTEM (PHASE 1 LOCK)"))
