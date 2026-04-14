@@ -1,34 +1,72 @@
-name: Organize Tech File and Build Schematic
+name: Slate Smart Repo Sync
 
 on:
   push:
     branches: [ main ]
-  workflow_dispatch: # Allows you to run it manually from the 'Actions' tab
+  workflow_dispatch:
 
 jobs:
-  build:
+  clean-and-build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
-      - name: Run Organization and Build
+      - name: Execute Smart Cleanup and Build
         run: |
-          # 1. Run the cleanup/organization logic
-          python organize_and_update.py
-          
-          # 2. Run the Phase 1 Schematic Generator
-          python technical/engineering/generate_schematic.py
+          python -c "
+          import os, shutil, hashlib
+          from pathlib import Path
+
+          # 1. Define Production Structure
+          STRUCTURE = [
+              'technical/engineering/archive_phase0',
+              'technical/datasheets',
+              'technical/manuals',
+              'technical/certs'
+          ]
+          for f in STRUCTURE: Path(f).mkdir(parents=True, exist_ok=True)
+
+          # 2. Archive Stale Phase 0 Artifacts
+          stale = ['output/slate_electrical_schematic.svg', 'output/slate_electrical_notes.md', 'output/slate_dc_demand_load.md']
+          archive_dir = Path('technical/engineering/archive_phase0')
+          for s in stale:
+              src = Path(s)
+              if src.exists():
+                  shutil.move(str(src), str(archive_dir / src.name))
+
+          # 3. Smart Deduplication & Sorting
+          def get_hash(path):
+              hasher = hashlib.md5()
+              with open(path, 'rb') as f:
+                  for chunk in iter(lambda: f.read(4096), b''): hasher.update(chunk)
+              return hasher.hexdigest()
+
+          seen_hashes = {}
+          # Scan root for PDFs to organize/deduplicate
+          for pdf in Path('.').glob('*.pdf'):
+              h = get_hash(pdf)
+              if h in seen_hashes:
+                  print(f'Deleting duplicate: {pdf.name}')
+                  pdf.unlink()
+              else:
+                  seen_hashes[h] = pdf.name
+                  shutil.move(str(pdf), f'technical/manuals/{pdf.name}')
+          "
+          # 4. Generate the Phase 1 Schematic
+          python generate_schematic.py
 
       - name: Commit and Push Changes
         run: |
           git config --global user.name "Slate-Bot"
           git config --global user.email "bot@slatevans.com"
           git add .
-          git commit -m "Automated repo organization and Phase 1 build" || echo "No changes to commit"
+          git commit -m "Automated Smart Cleanup: Deduplicated and Organized Tech Files" || echo "No changes to commit"
           git push
