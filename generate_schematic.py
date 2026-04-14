@@ -94,7 +94,11 @@ def write_dxf(path):
         # Draw Centered Text
         lines = lab.split("\n")
         sy = y + ht/2 + (len(lines)*14)/2 - 14
-        for i, l in enumerate(lines): out.append(dxf_text(x+wd/2-(len(l)*3.2), sy-i*14, 11, l))
+        for i, l in enumerate(lines):
+            # Approximate centering; consider DXF group codes 72/73 for true alignment
+            tx = x + wd / 2 - (len(l) * 3.2)
+            ty = sy - i * 14
+            out.append(dxf_text(tx, ty, 11, l))
 
     for lay, lab, pts in WIRES:
         for p1, p2 in zip(pts[:-1], pts[1:]): out.append(dxf_line(p1[0],p1[1],p2[0],p2[1],lay))
