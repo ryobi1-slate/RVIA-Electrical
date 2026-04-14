@@ -76,31 +76,31 @@ COMPONENTS = {
     ),
 
     # Phase 2 — distribution below house battery
-    # BAT right edge x=950, BAT left edge x=730
-    # B200A: positive side — center x = BAT right edge = 950
+    # Bus pair spans exactly BAT footprint (730–950), group center = 840 = BAT center
+    # B200A: positive side — center x = 900 (taps BAT interior at x=900)
     "B200A": (
         "200A MAIN BREAKER",
-        850, 1140, 200, 80, "ELEC-DC"
+        800, 1140, 200, 80, "ELEC-DC"
     ),
-    # SHUNT: negative side — center x = BAT left edge = 730
+    # SHUNT: negative side — center x = 780 (taps BAT interior at x=780)
     "SHUNT": (
         "300A SHUNT",
-        650, 1160, 160, 60, "ELEC-DC"
+        700, 1160, 160, 60, "ELEC-DC"
     ),
-    # POSBUS: center x = 950 (aligned with B200A), 60px gap from NEGBUS right
+    # POSBUS: center x = 900, right edge = 950 (B60A enters from right)
     "POSBUS": (
         "POSITIVE BUS",
-        870, 1020, 160, 40, "ELEC-DC"
+        850, 1020, 100, 40, "ELEC-DC"
     ),
-    # NEGBUS: center x = 730 (aligned with SHUNT)
+    # NEGBUS: center x = 780, left edge = 730 (DCDC negative enters from left)
     "NEGBUS": (
         "NEGATIVE BUS",
-        650, 1020, 160, 40, "ELEC-DC"
+        730, 1020, 100, 40, "ELEC-DC"
     ),
-    # CHASGRND: center x = 730 (aligned with NEGBUS)
+    # CHASGRND: center x = 780, aligned with NEGBUS
     "CHASGRND": (
         "CHASSIS GROUND",
-        670, 880, 120, 60, "ELEC-GND"
+        720, 880, 120, 60, "ELEC-GND"
     ),
 }
 
@@ -157,18 +157,26 @@ def build_wires() -> None:
         edge("DCDC", "top"),
     )
 
-    # Main charge output path
+    # DC-DC positive output → 60A charge breaker → positive bus (right entry)
     add_wire("ELEC-DC", "4 AWG", edge("DCDC", "right"), edge("B60A", "left"))
+    add_wire("ELEC-DC", "4 AWG",
+             edge("B60A", "bottom"),
+             (1160, 1040),
+             edge("POSBUS", "right"))
 
-    # Straight vertical drop from charge breaker to house battery
-    # B60A center x == BAT center x == 1160, so no horizontal jog needed
-    add_wire("ELEC-DC", "4 AWG", edge("B60A", "bottom"), edge("BAT", "top"))
+    # DC-DC negative return → negative bus
+    # Routes left of DCDC then down x=640 (clear of BAT and all components)
+    add_wire("ELEC-DC", None,
+             (720, 1700),
+             (640, 1700),
+             (640, 1040),
+             edge("NEGBUS", "left"))
 
     # Phase 2 — distribution wiring below house battery
-    # BAT right → 200A main breaker (positive side), center x = 1270
-    add_wire("ELEC-DC", "2/0 AWG", edge("BAT", "right"), edge("B200A", "top"))
-    # BAT left → 300A shunt (negative side), center x = 1050
-    add_wire("ELEC-DC", "2/0 AWG", edge("BAT", "left"), edge("SHUNT", "top"))
+    # BAT positive interior tap (x=900) → 200A main breaker (vertical)
+    add_wire("ELEC-DC", "2/0 AWG", (900, 1380), edge("B200A", "top"))
+    # BAT negative interior tap (x=780) → 300A shunt (vertical)
+    add_wire("ELEC-DC", "2/0 AWG", (780, 1380), edge("SHUNT", "top"))
     # 200A breaker → positive bus
     add_wire("ELEC-DC", "2/0 AWG", edge("B200A", "bottom"), edge("POSBUS", "top"))
     # Shunt → negative bus
