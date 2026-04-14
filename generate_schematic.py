@@ -169,3 +169,27 @@ if __name__ == "__main__":
     write_dxf(out_dir / "slate_electrical_schematic.dxf")
     write_svg(out_dir / "slate_electrical_schematic.svg")
     print(f"Phase 1 Schematic Generated in {out_dir}")
+
+def document_audit():
+    # List of mandatory filenames for RVIA/WAC 296 compliance
+    REQUIRED = [
+        "technical/certs/RichSolar-Alpha2Pro-UL1973.pdf",
+        "technical/certs/RichSolar-Alpha2Pro-UN383.pdf",
+        "technical/certs/Renogy-DCC30-Listing.pdf",
+        "technical/datasheets/Wire-125C-Spec.pdf",
+        "technical/manuals/Mercedes-2026-AWD-Alternator-Guide.pdf"
+    ]
+    
+    print("\n--- SLATE TECHNICAL FILE AUDIT ---")
+    missing_count = 0
+    for doc in REQUIRED:
+        if Path(doc).exists():
+            print(f"[PASS] {doc}")
+        else:
+            print(f"[FAIL] MISSING: {doc}")
+            missing_count += 1
+    print(f"----------------------------------\nAudit Complete: {missing_count} files missing.\n")
+
+if __name__ == "__main__":
+    # ... existing write calls ...
+    document_audit()
