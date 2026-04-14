@@ -1,0 +1,29 @@
+# Compliance & Regulatory Documents (Proprietary/Copyrighted)
+*.pdf
+*.PDF
+docs/
+manuals/
+regulatory/
+reference/
+
+# Exclude reference images
+*.png
+*.jpg
+*.jpeg
+
+# Local Environment / Claude Code
+.claude/
+.env
+*.log
+
+# AutoCAD / CAD Temp Files
+*.bak
+*.dwl
+*.dwl2
+*.sv$
+
+# Python / Scripting
+__pycache__/
+*.py[cod]
+*$py.class
+output/

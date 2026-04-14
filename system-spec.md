@@ -68,51 +68,59 @@ From the source diagram, include (end-state, across all phases combined):
 - Optional Air Conditioner (20A breaker)
 
 ## Layout rules
-Create a clean left-to-right one-line schematic with four horizontal bands:
+
+Create a clean left-to-right one-line schematic with horizontal bands:
 
 1. Top band: charging sources
-   - Solar Panel
-   - DC-DC + MPPT
-   - Shore Inlet feeding inverter/charger
-2. Middle band: main DC storage and protection
-   - Battery
-   - 300A shunt
-   - Negative bus
-   - 200A breaker
-   - Main positive path
-3. Right band: DC distribution and DC loads
-   - DC distribution panel
-   - all fused DC loads
-4. Bottom band: AC distribution and AC loads
-   - Shore Inlet
-   - Inverter/charger
-   - AC distribution panel
-   - AC branch circuits
+   - solar panel
+   - charge breaker devices
+   - DC-DC + MPPT charger
 
-## Connection logic
-- Solar Panel connects to DC-DC + MPPT, then through 60A breaker to battery charging path.
-- Battery negative routes through 300A shunt to negative bus.
-- Battery positive routes through 200A breaker to main positive distribution path.
-- Positive distribution feeds DC distribution panel and inverter/charger.
-- Shore inlet feeds inverter/charger AC input.
-- Inverter/charger feeds AC distribution panel.
-- AC distribution panel feeds GFCI circuits and optional AC.
-- DC distribution panel feeds all listed DC circuits.
-- Negative bus connects to chassis ground / OEM ground reference.
+2. Middle band: battery and main DC protection
+   - battery
+   - 200A breaker
+   - 300A shunt
+   - negative bus
+   - positive distribution path
+   - inverter/charger DC connection
+
+3. Right-middle band: DC distribution panel
+   - DC fuse panel with F1-F15 layout
+
+4. Bottom band: AC system
+   - shore inlet
+   - inverter/charger / transfer switch
+   - AC distribution panel
+   - GFCI circuits
+   - optional AC
+
+5. Grounding references
+   - negative bus
+   - chassis ground
+   - rear OEM ground
 
 ## Drafting rules
 - Use only simple geometry:
   - rectangles for components
   - lines for conductors
-  - arrows for power flow
+  - arrows for direction of power flow
   - text labels for all components and circuits
-- Use only straight horizontal and vertical lines
+- Use only horizontal and vertical lines
 - No diagonal lines
-- No overlapping geometry where avoidable
+- Avoid conductor crossings where possible
 - Keep spacing even and readable
-- Put fuse or breaker size directly in the load label where applicable
-- Add wire sizes only where clearly shown in the source diagram
-- Keep the drawing clean enough that a drafter can refine it later
+- Favor drafting clarity over realism
+- Use a clean AutoCAD-ready schematic style
+- Include part numbers in smaller text under major component labels for:
+  - inverter/charger
+  - battery
+  - DC-DC + MPPT
+  - shunt
+  - AC panel
+  - shore inlet
+  - major breakers
+- Mark bus bar as:
+  - "250A Bus Bar - final brand/rating to confirm"
 
 ## Output requirements
 Create:
@@ -123,6 +131,15 @@ Create:
 ## Notes file requirements
 The notes file must include:
 - assumptions made
-- any ambiguous items from the PDF
+- any ambiguity between BOM and source diagram
 - any labels or wire sizes that were unclear
-- suggested cleanup items for AutoCAD
+- any source-confirmed connections vs assumed routing decisions
+- any items marked TBD
+- suggested AutoCAD cleanup items
+
+## Important limitations
+- Do not redesign the electrical system
+- Do not invent hidden devices or inferred protection components
+- Do not assign detailed function to the 25A breaker or 80A breaker unless explicitly supported by source material
+- Do not expand the lighting control subsystem into the one-line schematic
+- Keep the refrigerator routed through the DC distribution panel for schematic clarity unless source material explicitly requires otherwise
