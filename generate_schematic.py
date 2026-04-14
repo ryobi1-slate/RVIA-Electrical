@@ -38,10 +38,11 @@ SVG_STROKE = {
 COMPONENTS = {
     # Charging band (top)
     "SOLAR":  ("200W SOLAR PANEL",                         120, 1700, 220, 120, "ELEC-DC"),
-    "B25A":   ("25A BREAKER",                              420, 1720, 140, 80,  "ELEC-DC"),
-    "DCDC":   ("DC-DC + MPPT",                             640, 1700, 220, 120, "ELEC-DC"),
-    "B60A":   ("60A SURFACE MOUNT\nBREAKER",               940, 1720, 200, 80,  "ELEC-DC"),
-    "B80A":   ("80A BREAKER",                             1220, 1720, 140, 80,  "ELEC-DC"),
+    "B25A":   ("25A SOLAR INPUT\nPROTECTION",              420, 1720, 180, 80,  "ELEC-DC"),
+    "DCDC":   ("DC-DC + MPPT",                             680, 1700, 220, 120, "ELEC-DC"),
+    "B60A":   ("60A MAIN CHARGE\nPROTECTION",              980, 1720, 200, 80,  "ELEC-DC"),
+    "B80A":   ("80A ALTERNATOR\nPROTECTION",              1260, 1720, 200, 80,  "ELEC-DC"),
+    "CHASBAT":("CHASSIS BATTERY",                         1540, 1700, 220, 120, "ELEC-DC"),
 
     # Main DC (middle band)
     "BAT":    ("12V 200Ah LiFePO4\nBATTERY (UL1973)",      640, 1300, 220, 160, "ELEC-DC"),
@@ -130,12 +131,18 @@ w("ELEC-DC", "4 AWG",
   (edge("BAT","top")[0] + 70, 1480),
   (edge("BAT","top")[0] + 70, edge("BAT","top")[1]))
 
-# 80A breaker -> down and left into DC-DC + MPPT top (alternator/aux input)
+# Chassis Battery -> 80A Alternator Protection (4 AWG input tap)
 w("ELEC-DC", "4 AWG",
-  edge("B80A","bottom"),
-  (edge("B80A","bottom")[0], 1660),
-  (edge("DCDC","top")[0] + 40, 1660),
-  (edge("DCDC","top")[0] + 40, edge("DCDC","top")[1]))
+  edge("CHASBAT","left"), edge("B80A","right"))
+
+# 80A Alternator Protection -> up and over into DC-DC + MPPT top
+# (alternator-charging input to the DC-DC charger). Routed above the
+# top-band rectangles to avoid crossing the DCDC and B60A boxes.
+w("ELEC-DC", "4 AWG",
+  edge("B80A","top"),
+  (edge("B80A","top")[0], 1870),
+  (edge("DCDC","top")[0], 1870),
+  edge("DCDC","top"))
 
 # --- Battery / main DC bus (middle band) -------------------------------------
 # Battery + (top-left area of battery) -> 200A breaker -> main positive rail

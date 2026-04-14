@@ -48,16 +48,19 @@ This is a first-pass one-line schematic drafted from `source-diagram.pdf` and
 
 ## Ambiguities from the source PDF
 
-1. **25A Breaker and 80A Breaker** are visible in the PDF but are not in the
-   `system-spec.md` "Required system content" list. They have been included
-   on the schematic for fidelity with the source diagram:
-   - **25A Breaker** – drawn between the 200W Solar Panel and the DC-DC +
-     MPPT input, which matches the 6 AWG conductor callouts in the PDF.
-   - **80A Breaker** – drawn as a parallel branch tying back into the
-     DC-DC + MPPT unit. In the PDF it sits on what appears to be the
-     alternator-charging input path of the Renogy 50A DC-DC (the device
-     accepts both solar and alternator inputs). The exact role is not
-     labeled in the source; drafter should confirm with the installer.
+1. **25A / 60A / 80A breakers** are visible in the PDF but are not called
+   out by role in `system-spec.md`. They have been placed in the top band
+   with explicit labels assigned per engineering review:
+   - **25A Solar Input Protection** – between the 200W Solar Panel and the
+     DC-DC + MPPT solar input; matches the 6 AWG conductor callouts.
+   - **60A Main Charge Protection** – between the DC-DC + MPPT output and
+     the house battery positive terminal; matches the 4 AWG callout and
+     the spec wording "through 60A breaker to battery charging path".
+   - **80A Alternator Protection** – between the Chassis Battery and the
+     DC-DC + MPPT alternator input. The Renogy RBC50D1S-G7-US is a
+     dual-input DC-DC charger (solar + alternator), so the 80A breaker
+     protects the alternator-side feed. A 4 AWG conductor is shown from
+     the Chassis Battery to the 80A breaker, matching the PDF AWG callout.
 2. **Refrigerator feed origin** – the PDF shows a short 8 AWG run to the
    refrigerator located physically near the main negative bus. The spec
    requires the refrigerator to be a DC Distribution Panel circuit with a
@@ -113,8 +116,10 @@ This is a first-pass one-line schematic drafted from `source-diagram.pdf` and
    sheet density.
 7. Snap spacing is 20 drawing units; reset to whatever grid your template
    uses before dimensioning.
-8. The 80A Breaker's role (alternator input vs. secondary solar leg)
-   should be confirmed and re-labeled with the correct upstream source.
+8. Confirm the Chassis Battery → 80A Alternator Protection feed sizing
+   against the actual alternator output; if the alternator is rated
+   above ~60A continuous, verify the 80A breaker (or upgrade to a larger
+   device) and the 4 AWG feeder length/voltage-drop budget.
 9. Inverter/charger is currently a single large block. If desired, split
    into three sub-blocks (inverter, charger, transfer switch) with
    internal connections to match UL-458 schematic conventions.
